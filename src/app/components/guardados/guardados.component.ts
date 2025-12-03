@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-guardados',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './guardados.component.html',
   styleUrl: './guardados.component.css'
 })

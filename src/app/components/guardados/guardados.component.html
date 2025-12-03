@@ -9,21 +9,42 @@
     </div>
 
     <!-- CONTENIDO -->
-    <div class="relative z-10 w-full py-20 px-6">
+    <div class="relative z-10 flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="flex justify-between items-center p-6 text-white">
+            <h1 
+                class="text-3xl font-bold tracking-wide ml-10 cursor-pointer hover:text-blue-500"
+                routerLink="/"
+            >
+                Homie
+            </h1>
+            <div class="flex items-center space-x-4">
+                <button 
+                    routerLink="/login"
+                    class="px-5 py-2 bg-red-600 rounded-full hover:bg-red-800 transition font-semibold shadow-lg cursor-pointer">
+                    Logout
+                </button>
+            </div>
+        </header>
 
         <h2 class="text-5xl font-extrabold text-white text-center mb-16 drop-shadow-xl">
             Casas guardadas
         </h2>
 
-        <div class="max-w-4xl mx-auto flex flex-col gap-10">
+        <div class="w-230 mx-auto flex flex-col gap-10 mb-30">
 
-            <!-- ===================== CASA 2 ===================== -->
             <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-4xl 
                         shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden w-full">
 
                 <div class="p-8">
-                    <h3 class="text-3xl font-bold text-white mb-4">Casa con gran terraza</h3>
-                    <p class="text-black-400 font-semibold text-2xl mb-6">€450,000</p>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-3xl font-bold text-white">Casa con gran terraza</h3>
+                        <button class="px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
+                            Eliminar
+                        </button>
+                    </div>
+
+                    <p class="text-black-400 font-bold text-2xl mb-6">€450,000</p>
 
                     <!-- TABLA -->
                     <table class="w-full text-gray-200 text-left">
@@ -45,21 +66,22 @@
                                 <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Terraza:</td><td>2</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>                    
                 </div>
 
             </div>
 
-
-
-
-            <!-- ===================== CASA 3 ===================== -->
             <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-4xl 
                         shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden w-full">
 
                 <div class="p-8">
-                    <h3 class="text-3xl font-bold text-white mb-4">Loft acogedor</h3>
-                    <p class="text-black-400 font-semibold text-2xl mb-6">€310,000</p>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-3xl font-bold text-white">Loft acogedor</h3>
+                        <button class="px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
+                            Eliminar
+                        </button>
+                    </div>
+                    <p class="text-black-400 font-bold text-2xl mb-6">€310,000</p>
 
                     <!-- TABLA -->
                     <table class="w-full text-gray-200 text-left">
@@ -86,10 +108,7 @@
 
             </div>
 
+        </div>
 
-
-
-        </div><!-- FIN CONTENEDOR CASAS -->
-
-    </div><!-- FIN CONTENIDO -->
-</div><!-- FIN SECCIÓN -->
+    </div>
+</div>
