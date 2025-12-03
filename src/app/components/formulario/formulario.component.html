@@ -1,1 +1,131 @@
-<p>formulario works!</p>
+<div class="relative min-h-screen bg-gray-900 font-sans flex flex-col">
+
+    <!-- Imagen de fondo -->
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1950&q=80" class="w-full h-full object-cover brightness-75" alt="Fondo hero">
+        <div class="absolute inset-0 bg-linear-to-b from-black/40 via-black/10 to-black/60"></div>
+    </div>
+
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="flex justify-between items-center p-6 text-white">
+            <h1 
+                class="text-3xl font-bold tracking-wide ml-10 cursor-pointer hover:text-blue-500"
+                routerLink="/">
+                Homie
+            </h1>
+            
+            <div class="flex items-center space-x-4">
+                <button class="px-5 py-2 bg-white text-gray-800 rounded-full hover:bg-gray-300 transition font-semibold shadow-lg cursor-pointer">
+                    Guardados
+                </button>
+                <button 
+                    routerLink="/login"
+                    class="px-5 py-2 bg-blue-500 rounded-full hover:bg-blue-700 transition font-semibold shadow-lg cursor-pointer">
+                    Login
+                </button>
+            </div>
+        </header>
+
+        <!-- FORMULARIO -->
+        <main class="flex-1 flex flex-col items-center justify-center px-6 mb-10">
+            <div class="w-full max-w-5xl relative">
+                <div class="bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-12 border border-white/20">
+
+                    <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8 drop-shadow-md">
+                        Datos para la Predicción
+                    </h2>
+
+                    <!-- GRID -->
+                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <input type="text" placeholder="Nombre de la búsqueda (si deseas guardar)" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 col-span-2" name="nombre">
+
+                        <!-- COLUMNA IZQUIERDA -->
+                        <div class="flex flex-col gap-4">
+
+                            <input type="number" placeholder="m² reales" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="m2_real">
+                            <input type="number" placeholder="Número de habitaciones"  class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="room_numbers">
+                            <input type="number" placeholder="Número de baños" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="bath_num">
+                            <input type="number" placeholder="Planta / Piso" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="floor">
+
+                            <select name="condition" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                                <option value="">Estado del inmueble</option>
+                                <option value="nuevo">Nuevo</option>
+                                <option value="reformado">Reformado</option>
+                                <option value="a_reformar">A reformar</option>
+                            </select>
+                        </div>
+                        
+                        <!-- COLUMNA DERECHA -->
+                        <div class="flex flex-col gap-4">
+                            
+                            <input type="text" placeholder="Municipio (ej: Barcelona, Badalona…)"  class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="loc_city">                        
+                            <input type="text" placeholder="Distrito (solo para Barcelona ciudad)" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="loc_district">                        
+                            <input type="text" placeholder="Barrio" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="loc_neigh">                        
+                            <input type="number" placeholder="Tamaño del terreno" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="ground_size">
+
+                            <select name="house_type" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                                <option value="">Tipo de vivienda</option>
+                                <option value="piso">Piso</option>
+                                <option value="casa_pueblo">Casa de pueblo</option>
+                                <option value="casa_independiente">Casa / Chalet independiente</option>
+                                <option value="chalet_adosado">Chalet adosado</option>
+                                <option value="atico">Ático</option>
+                                <option value="duplex">Dúplex</option>
+                                <option value="casa_rural">Casa rural</option>
+                                <option value="torre">Torre</option>
+                                <option value="finca_rustica">Finca rústica</option>
+                            </select>              
+
+                        </div>
+                    </form>
+
+                    <!-- CHECKBOXES -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 text-gray-700">
+
+                        <label class="flex items-center gap-3"><input type="checkbox" name="balcony" class="w-5 h-5" value="1">Balcón</label>
+                        <label class="flex items-center gap-3"><input type="checkbox" name="terrace" class="w-5 h-5" value="1">Terraza</label>
+                        <label class="flex items-center gap-3"><input type="checkbox" name="garden" class="w-5 h-5" value="1">Jardín</label>
+                        <label class="flex items-center gap-3"><input type="checkbox" name="unfurnished" class="w-5 h-5" value="1">Sin amueblar</label>
+                        <label class="flex items-center gap-3"><input type="checkbox" name="swimming_pool" class="w-5 h-5" value="1">Piscina</label>
+                        <label class="flex items-center gap-3"><input type="checkbox" name="garage" class="w-5 h-5" value="1">Garaje</label>
+                        <label class="flex items-center gap-3"><input type="checkbox" name="lift" class="w-5 h-5" value="1">Ascensor</label>
+
+                    </div>
+
+                    <!-- BOTÓN -->
+                    <div class="flex justify-center mt-10">
+                        <button type="submit" class="px-16 py-4 bg-blue-600 text-white rounded-full text-xl font-semibold shadow-xl hover:bg-blue-700 transition cursor-pointer">
+                            Calcular Precio
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- RESULTADO DE LA PREDICCIÓN -->
+                <div class="w-full max-w-5xl relative mt-8 hidden">
+                    <div class="bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-12 border border-white/20 flex flex-col items-center">
+
+                        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 drop-shadow-md text-center">
+                            Resultado de la Predicción
+                        </h2>
+
+                        <p id="predicted-price" class="text-4xl font-bold mb-8">234000 €</p>
+
+                        <button 
+                            type="submit"
+                            id="guardar-prediccion"
+                            class="px-16 py-4 bg-green-500 text-white rounded-full text-xl font-semibold shadow-xl hover:bg-green-700 transition cursor-pointer">
+                            Guardar Predicción
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+
+    </div>
+
+</div>
