@@ -23,14 +23,60 @@
                     <h2 class="text-4xl font-extrabold text-gray-800 mb-2 drop-shadow-md">Crear Cuenta</h2>
                     <p class="text-gray-600 text-lg max-w-xs mb-4">Regístrate para guardar búsquedas.</p>
 
-                    <!-- Campos de registro -->
-                    <form class="w-full flex flex-col gap-4">
-                        <input type="text" placeholder="Usuario" class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <input type="email" placeholder="Correo electrónico" class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <input type="password" placeholder="Contraseña" class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <button type="submit" class="mt-4 px-14 py-3 bg-blue-500 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                    <form [formGroup]="registerForm" (ngSubmit)="register()" class="w-full flex flex-col gap-4">
+                        
+                        <input 
+                            type="text" 
+                            placeholder="Usuario" 
+                            formControlName="username" 
+                            class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        >
+                        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-sm text-red-500 -mt-2.5 ml-4">
+                            <div *ngIf="registerForm.get('username')?.errors?.['required']">
+                                El nombre de usuario es obligatorio.
+                            </div>
+                        </div>
+                        
+                        <input 
+                            type="email" 
+                            placeholder="Correo electrónico" 
+                            formControlName="email" 
+                            class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        >
+                        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-sm text-red-500 -mt-2.5 ml-4">
+                            <div *ngIf="registerForm.get('email')?.errors?.['required']">
+                                El correo electrónico es obligatorio.
+                            </div>
+                            <div *ngIf="registerForm.get('email')?.errors?.['email']">
+                                Introduce un formato de correo electrónico válido.
+                            </div>
+                        </div>
+                        
+                        <input 
+                            type="password" 
+                            placeholder="Contraseña" 
+                            formControlName="password" 
+                            class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        >
+                        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-sm text-red-500 -mt-2.5 ml-4">
+                            <div *ngIf="registerForm.get('password')?.errors?.['required']">
+                                La contraseña es obligatoria.
+                            </div>
+                            <div *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                                La contraseña debe tener al menos {{ registerForm.get('password')?.errors?.['minlength'].requiredLength }} caracteres.
+                            </div>
+                        </div>
+                        
+                        <button 
+                            type="submit" 
+                            class="mt-4 px-14 py-3 bg-blue-500 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                            [disabled]="registerForm.invalid"
+                        >
                             Registrarse
                         </button>
+
+                        <p *ngIf="mensajeExito" class="text-green-600 mt-2">{{ mensajeExito }}</p>
+                        <p *ngIf="mensajeError" class="text-red-500 mt-2">{{ mensajeError }}</p>
                     </form>
 
                     <p class="text-gray-500 text-sm mt-4">¿Ya tienes cuenta? <a routerLink="/login" class="text-blue-600 hover:underline">Inicia sesión</a></p>

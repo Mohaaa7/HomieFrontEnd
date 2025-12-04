@@ -14,4 +14,8 @@ export class ApiService {
     return this.http.post(`${this.API_URL}/login`, {username, password});
   }
 
+  register(username: string, password: string, email: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/register`, {username, password, email});
+  }
+
 }

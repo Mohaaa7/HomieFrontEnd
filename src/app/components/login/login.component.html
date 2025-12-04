@@ -53,8 +53,9 @@
                             Entrar
                         </button>
 
-                        <p class="text-red-500 mt-2">{{ mensaje }}</p>
-                        </form>
+                        <p *ngIf="mensajeExito" class="text-green-600 mt-2">{{ mensajeExito }}</p>
+                        <p *ngIf="mensajeError" class="text-red-500 mt-2">{{ mensajeError }}</p>
+                    </form>
 
 
                     <p class="text-gray-500 text-sm mt-4">

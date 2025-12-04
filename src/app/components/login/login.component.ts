@@ -13,7 +13,8 @@ import { NgIf } from '@angular/common';
 export class LoginComponent {
 
   loginForm!: FormGroup;
-  mensaje = '';
+  mensajeExito = '';
+  mensajeError = '';
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {}
 
@@ -26,7 +27,7 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.invalid) {
-      this.mensaje = 'Por favor completa todos los campos';
+      this.mensajeError = 'Por favor completa todos los campos';
       return;
     }
 
@@ -34,16 +35,23 @@ export class LoginComponent {
 
     this.apiService.login(username, password).subscribe({
       next: (res) => {
-        if(res.success) {
-          this.mensaje = 'Login exitoso!';
+        if(res) {
+          this.mensajeExito = 'Login exitoso!';
           localStorage.setItem('token', res.token!);
+          this.mensajeError = "";
         } else {
-          this.mensaje = res.mensaje || 'Login fallido';
+          this.mensajeError = 'Login fallido';
+          this.mensajeExito = "";
         }
       },
       error: (err) => {
+        this.mensajeExito = '';
         console.error(err);
-        this.mensaje = 'Error al conectar con el servidor';
+        if (err.status > 0) {
+          this.mensajeError = 'Credenciales inválidas'; 
+        } else {
+          this.mensajeError = 'Error al conectar con el servidor.';
+        }
       }
     });
   }
