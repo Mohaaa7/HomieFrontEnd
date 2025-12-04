@@ -24,13 +24,38 @@
                     <p class="text-gray-600 text-lg max-w-xs mb-4">Accede a tu cuenta para guardar búsquedas.</p>
 
                     <!-- Campos de login -->
-                    <form class="w-full flex flex-col gap-4">
-                        <input type="email" placeholder="Usuario" class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <input type="password" placeholder="Contraseña" class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <button type="submit" class="mt-4 px-14 py-3 bg-blue-500 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                    <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-full flex flex-col gap-4">
+                        <input 
+                            type="email" 
+                            placeholder="Usuario" 
+                            formControlName="username"
+                            class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        >
+                        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="text-red-500 text-sm">
+                            El usuario es obligatorio
+                        </div>
+
+                        <input 
+                            type="password" 
+                            placeholder="Contraseña" 
+                            formControlName="password"
+                            class="px-6 py-3 rounded-full border border-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        >
+                        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-sm">
+                            La contraseña es obligatoria
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            [disabled]="loginForm.invalid"
+                            class="mt-4 px-14 py-3 bg-blue-500 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                        >
                             Entrar
                         </button>
-                    </form>
+
+                        <p class="text-red-500 mt-2">{{ mensaje }}</p>
+                        </form>
+
 
                     <p class="text-gray-500 text-sm mt-4">
                         ¿No tienes cuenta? 
