@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
@@ -16,7 +16,7 @@ export class LoginComponent {
   mensajeExito = '';
   mensajeError = '';
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {}
+  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -37,8 +37,10 @@ export class LoginComponent {
       next: (res) => {
         if(res) {
           this.mensajeExito = 'Login exitoso!';
-          localStorage.setItem('token', res.token!);
+          localStorage.setItem('token', res.access_token!);
           this.mensajeError = "";
+          
+          this.router.navigate(['/']);
         } else {
           this.mensajeError = 'Login fallido';
           this.mensajeExito = "";

@@ -18,15 +18,24 @@
             
             <div class="flex items-center space-x-4">
                 <button 
-                    class="px-5 py-2 bg-white text-gray-800 rounded-full hover:bg-gray-300 transition font-semibold shadow-lg cursor-pointer"
+                    *ngIf="isLoggedIn"
                     routerLink="/guardados"
-                >
+                    class="px-5 py-2 bg-white text-gray-800 rounded-full hover:bg-gray-300 transition font-semibold shadow-lg cursor-pointer">                
                     Guardados
                 </button>
+
                 <button 
+                    *ngIf="!isLoggedIn" 
                     routerLink="/login"
                     class="px-5 py-2 bg-blue-500 rounded-full hover:bg-blue-700 transition font-semibold shadow-lg cursor-pointer">
                     Login
+                </button>
+
+                <button 
+                    *ngIf="isLoggedIn"
+                    (click)="logout()"
+                    class="px-5 py-2 bg-red-500 rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
+                    Logout
                 </button>
             </div>
         </header>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ApiService } from '../../services/api.service';
 import { NgIf } from '@angular/common';
 
@@ -15,7 +15,7 @@ export class RegistroComponent {
   mensajeExito = '';
   mensajeError = '';
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {}
+  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -37,8 +37,8 @@ export class RegistroComponent {
       next: (res) => {
         if(res) {
           this.mensajeExito = 'Registro exitoso!';
-          localStorage.setItem('token', res.token!);
           this.mensajeError = "";
+          this.router.navigate(['/login']);
         } else {
           this.mensajeError = 'Registro fallido';
           this.mensajeExito = "";
