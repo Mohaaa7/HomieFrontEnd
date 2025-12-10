@@ -66,11 +66,13 @@ export class FormularioComponent {
           this.predictedPrice = res.predicted_price;
         } else {
           this.mensajeError = 'Error al predecir';
+          this.predictedPrice = 0;
         }
       },
       error: (err) => {
         console.error(err);
         this.mensajeError = 'Error en el servidor';
+        this.predictedPrice = 0;
       }
     });
   }
