@@ -43,78 +43,119 @@
         <!-- FORMULARIO -->
         <main class="flex-1 flex flex-col items-center justify-center px-6 mb-10">
             <div class="w-full max-w-5xl relative">
-                <div class="bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-12 border border-white/20">
+                <div class="max-w-6xl mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-8 md:p-12 border border-white/20">
 
-                    <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8 drop-shadow-md">
+                    <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-10 drop-shadow-md">
                         Datos para la Predicción
                     </h2>
 
-                    <!-- GRID -->
-                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form 
+                        [formGroup]="predictForm" 
+                        (ngSubmit)="predictPrice()"
+                        class="flex flex-col gap-10"
+                    >
 
-                        <input type="text" placeholder="Nombre de la búsqueda (si deseas guardar)" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 col-span-2" name="nombre">
+                        <!-- GRID INPUTS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <!-- COLUMNA IZQUIERDA -->
-                        <div class="flex flex-col gap-4">
+                            <!-- COLUMNA IZQUIERDA -->
+                            <div class="flex flex-col gap-4">
+                                <input type="number" placeholder="m² reales" class="input p-3 border border-gray-400 rounded-2xl" formControlName="m2_real">
+                                <input type="number" placeholder="Número de habitaciones" class="input p-3 border border-gray-400 rounded-2xl" formControlName="room_num">
+                                <input type="number" placeholder="Número de baños" class="input p-3 border border-gray-400 rounded-2xl" formControlName="bath_num">
+                                <input type="number" placeholder="Planta / Piso (0 para planta baja)" class="input p-3 border border-gray-400 rounded-2xl" formControlName="floor">
 
-                            <input type="number" placeholder="m² reales" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="m2_real">
-                            <input type="number" placeholder="Número de habitaciones"  class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="room_numbers">
-                            <input type="number" placeholder="Número de baños" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="bath_num">
-                            <input type="number" placeholder="Planta / Piso" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="floor">
+                                <select formControlName="condition" class="input p-3 border border-gray-400 rounded-2xl">
+                                    <option value="">Estado del inmueble</option>
+                                    <option value="0">Nuevo</option>
+                                    <option value="3">Reformado</option>
+                                    <option value="2">Buen estado</option>
+                                    <option value="1">A reformar</option>
+                                </select>
 
-                            <select name="condition" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
-                                <option value="">Estado del inmueble</option>
-                                <option value="nuevo">Nuevo</option>
-                                <option value="reformado">Reformado</option>
-                                <option value="a_reformar">A reformar</option>
-                            </select>
+                                <select formControlName="garage" class="input p-3 border border-gray-400 rounded-2xl">
+                                    <option value="">Garaje</option>
+                                    <option value="0">No indicado</option>
+                                    <option value="1">Incluido</option>
+                                    <option value="4">5000€ adicionales</option>
+                                    <option value="5">6000€ adicionales</option>
+                                    <option value="6">8000€ adicionales</option>
+                                    <option value="2">10000€ adicionales</option>
+                                    <option value="3">12000€ adicionales</option>
+                                </select>
+                            </div>
+
+                            <!-- COLUMNA DERECHA -->
+                            <div class="flex flex-col gap-4">
+                                <select formControlName="loc_city" class="input p-3 border border-gray-400 rounded-2xl">
+                                    <option value="">Municipio</option>
+                                    <option value="0">Barcelona</option>
+                                    <option value="1">Hospitalet de Llobregat</option>
+                                    <option value="2">Vilafranca del Penedès</option>
+                                </select>
+
+                                <select formControlName="loc_district" class="input p-3 border border-gray-400 rounded-2xl">
+                                    <option value="">Distrito</option>
+                                    <option value="0">Centre Vila</option>
+                                    <option value="1">Eixample</option>
+                                    <option value="2">La Escorxador</option>
+                                    <option value="3">Sant Julià</option>
+                                    <option value="4">Sant Pere</option>
+                                    <option value="5">Sants - Badal</option>
+                                </select>
+
+                                <select formControlName="loc_neigh" class="input p-3 border border-gray-400 rounded-2xl">
+                                    <option value="">Barrio</option>
+                                    <option value="0">La Barceloneta</option>
+                                    <option value="1">La Florida</option>
+                                    <option value="2">Les Corts</option>
+                                    <option value="3">Llefià</option>
+                                    <option value="4">Naves</option>
+                                    <option value="5">Sant Martí</option>
+                                    <option value="6">Sant Pere</option>
+                                    <option value="7">Sant Julià</option>
+                                    <option value="8">Sants - Badal</option>
+                                    <option value="9">Vilafranca del Penedès</option>
+                                </select>
+
+                                <input type="number" placeholder="Tamaño del terreno" class="input p-3 border border-gray-400 rounded-2xl" formControlName="ground_size">
+
+                                <select formControlName="house_type" class="input p-3 border border-gray-400 rounded-2xl">
+                                    <option value="">Tipo de vivienda</option>
+                                    <option value="0">Apartamento</option>
+                                    <option value="1">Chalet independiente</option>
+                                    <option value="2">Chalet adosado</option>
+                                    <option value="3">Estudio</option>
+                                    <option value="4">Finca rústica</option>
+                                    <option value="5">Piso</option>
+                                </select>
+                            </div>
                         </div>
-                        
-                        <!-- COLUMNA DERECHA -->
-                        <div class="flex flex-col gap-4">
-                            
-                            <input type="text" placeholder="Municipio (ej: Barcelona, Badalona…)"  class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="loc_city">                        
-                            <input type="text" placeholder="Distrito (solo para Barcelona ciudad)" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="loc_district">                        
-                            <input type="text" placeholder="Barrio" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="loc_neigh">                        
-                            <input type="number" placeholder="Tamaño del terreno" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500" name="ground_size">
 
-                            <select name="house_type" class="px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
-                                <option value="">Tipo de vivienda</option>
-                                <option value="piso">Piso</option>
-                                <option value="casa_pueblo">Casa de pueblo</option>
-                                <option value="casa_independiente">Casa / Chalet independiente</option>
-                                <option value="chalet_adosado">Chalet adosado</option>
-                                <option value="atico">Ático</option>
-                                <option value="duplex">Dúplex</option>
-                                <option value="casa_rural">Casa rural</option>
-                                <option value="torre">Torre</option>
-                                <option value="finca_rustica">Finca rústica</option>
-                            </select>              
-
+                        <!-- CHECKBOXES -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-gray-700">
+                            <label class="flex items-center gap-2"><input type="checkbox" class="cursor-pointer" formControlName="balcony" value="1">Balcón</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="cursor-pointer" formControlName="terrace" value="1">Terraza</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="cursor-pointer" formControlName="garden" value="1">Jardín</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="cursor-pointer" formControlName="unfurnished" value="1">Sin amueblar</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="cursor-pointer" formControlName="swimming_pool" value="1">Piscina</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="cursor-pointer" formControlName="lift" value="1">Ascensor</label>
                         </div>
+
+                        <!-- BOTÓN -->
+                        <div class="flex justify-center">
+                            <button 
+                                type="submit"
+                                class="px-16 py-4 bg-blue-600 text-white rounded-full text-xl font-semibold shadow-xl hover:bg-blue-700 transition cursor-pointer"
+                                [disabled]="predictForm.invalid"
+                            >
+                                Calcular Precio
+                            </button>
+                        </div>
+
                     </form>
-
-                    <!-- CHECKBOXES -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 text-gray-700">
-
-                        <label class="flex items-center gap-3"><input type="checkbox" name="balcony" class="w-5 h-5" value="1">Balcón</label>
-                        <label class="flex items-center gap-3"><input type="checkbox" name="terrace" class="w-5 h-5" value="1">Terraza</label>
-                        <label class="flex items-center gap-3"><input type="checkbox" name="garden" class="w-5 h-5" value="1">Jardín</label>
-                        <label class="flex items-center gap-3"><input type="checkbox" name="unfurnished" class="w-5 h-5" value="1">Sin amueblar</label>
-                        <label class="flex items-center gap-3"><input type="checkbox" name="swimming_pool" class="w-5 h-5" value="1">Piscina</label>
-                        <label class="flex items-center gap-3"><input type="checkbox" name="garage" class="w-5 h-5" value="1">Garaje</label>
-                        <label class="flex items-center gap-3"><input type="checkbox" name="lift" class="w-5 h-5" value="1">Ascensor</label>
-
-                    </div>
-
-                    <!-- BOTÓN -->
-                    <div class="flex justify-center mt-10">
-                        <button type="submit" class="px-16 py-4 bg-blue-600 text-white rounded-full text-xl font-semibold shadow-xl hover:bg-blue-700 transition cursor-pointer">
-                            Calcular Precio
-                        </button>
-                    </div>
-
                 </div>
+
 
                 <!-- RESULTADO DE LA PREDICCIÓN -->
                 <div class="w-full max-w-5xl relative mt-8 hidden">

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,10 @@ export class ApiService {
 
   register(username: string, password: string, email: string): Observable<any> {
     return this.http.post(`${this.API_URL}/register`, {username, password, email});
+  }
+
+  predictPrice(data: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/predictPrice`, {data});
   }
 
 }

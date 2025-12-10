@@ -12,8 +12,8 @@ import { NgIf } from '@angular/common';
 })
 export class RegistroComponent {
   registerForm!: FormGroup;
-  mensajeExito = '';
-  mensajeError = '';
+  mensajeExito: string = '';
+  mensajeError: string = '';
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {}
 
