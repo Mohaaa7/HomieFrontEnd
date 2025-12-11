@@ -1,12 +1,12 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-formulario',
-  imports: [RouterLink, NgIf, ReactiveFormsModule],
+  imports: [RouterLink, NgIf, ReactiveFormsModule, FormsModule],
   templateUrl: './formulario.component.html',
   styleUrl: './formulario.component.css'
 })
@@ -15,6 +15,9 @@ export class FormularioComponent {
   predictForm!: FormGroup;
   mensajeError: string = '';
   predictedPrice: number = 0;
+  
+  showSaveModal: boolean = false;
+  saveName: string = "";
 
   constructor(private router: Router, private fb: FormBuilder, private apiService: ApiService) {}
 
@@ -22,23 +25,17 @@ export class FormularioComponent {
     this.checkLogin();
 
     this.predictForm = this.fb.group({
-
-      // NUMÉRICOS
       m2_real: [null, [Validators.required, Validators.min(10)]],
       room_num: [null, [Validators.required, Validators.min(0)]], 
       bath_num: [null, [Validators.required, Validators.min(0)]],
       floor: [0, [Validators.required, Validators.min(0)]],
       ground_size: [0, [Validators.min(0)]],
-
-      // SELECTS
       condition: ['', Validators.required],
       garage: ['', Validators.required],
       loc_city: ['', Validators.required], 
       loc_district: ['', Validators.required], 
       loc_neigh: ['', Validators.required], 
       house_type: ['', Validators.required],
-
-      // CHECKBOXES
       balcony: [false],
       terrace: [false],
       garden: [false],
@@ -46,33 +43,80 @@ export class FormularioComponent {
       swimming_pool: [false],
       lift: [false]
     });
-
   }
 
   predictPrice(): void {
-    console.log('entra')
     if (this.predictForm.invalid) {
-      this.mensajeError = 'Formulario invalido';
+      this.mensajeError = 'Formulario inválido. Revisa los campos.';
       return;
     }
 
-    const data = this.predictForm.value;
+    const formValues = this.predictForm.value;
+    const dataToSend = {
+      ...formValues,
+      room_numbers: formValues.room_num
+    };
 
-    this.apiService.predictPrice(data).subscribe({
+    this.apiService.predictPrice(dataToSend).subscribe({
       next: (res) => {
-        if(res) {
-          console.log(res)
+        if(res && res.predicted_price) {
           this.mensajeError = "";
           this.predictedPrice = res.predicted_price;
         } else {
-          this.mensajeError = 'Error al predecir';
-          this.predictedPrice = 0;
+          this.mensajeError = 'Error al obtener la predicción.';
         }
       },
       error: (err) => {
         console.error(err);
-        this.mensajeError = 'Error en el servidor';
-        this.predictedPrice = 0;
+        this.mensajeError = 'Error de conexión con el servidor.';
+      }
+    });
+  }
+
+  openSaveModal() {
+    this.saveName = "";
+    this.showSaveModal = true;
+  }
+
+  cancelSave() {
+    this.showSaveModal = false;
+  }
+
+  confirmSave() {
+    if (!this.saveName || !this.saveName.trim()) {
+      alert("Por favor, ponle un nombre a la vivienda.");
+      return;
+    }
+
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      alert("Error: Sesión no válida. Por favor haz login de nuevo.");
+      this.showSaveModal = false;
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    const datosParaGuardar = {
+      ...this.predictForm.value,       
+      nombre: this.saveName,           
+      price: this.predictedPrice,      
+      user_id: parseInt(userId)     
+    };
+
+    console.log("Enviando datos:", datosParaGuardar); // Para depurar
+
+    this.apiService.addVivienda(datosParaGuardar).subscribe({
+      next: (res) => {
+        console.log('Guardado exitoso:', res);
+        this.showSaveModal = false;
+        alert(`¡Guardado correctamente como "${this.saveName}"!`);
+        this.saveName = "";
+      },
+      error: (err) => {
+        console.error('Error al guardar:', err);
+        const msg = err.error?.error || 'No se pudo guardar la vivienda.';
+        alert("Error: " + msg);
+        this.showSaveModal = false;
       }
     });
   }
@@ -84,6 +128,7 @@ export class FormularioComponent {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
     this.isLoggedIn = false;
     this.router.navigate(['/login']);
   }

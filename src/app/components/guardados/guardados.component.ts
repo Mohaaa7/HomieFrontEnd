@@ -13,6 +13,7 @@ export class GuardadosComponent {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
     this.router.navigate(['/login']);
   }
 }

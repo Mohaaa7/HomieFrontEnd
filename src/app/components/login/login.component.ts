@@ -38,6 +38,7 @@ export class LoginComponent {
         if(res) {
           this.mensajeExito = 'Login exitoso!';
           localStorage.setItem('token', res.access_token!);
+          localStorage.setItem('user_id', res.user_id!);
           this.mensajeError = "";
           
           this.router.navigate(['/']);

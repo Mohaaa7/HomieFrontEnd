@@ -24,6 +24,7 @@ export class HomeComponent {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
     this.isLoggedIn = false;
     this.router.navigate(['/login']);
   }

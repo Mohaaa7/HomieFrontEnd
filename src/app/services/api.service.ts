@@ -11,7 +11,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // Login: guarda el token en localStorage
   login(username: string, password: string): Observable<any> {
     return new Observable(observer => {
       this.http.post(`${this.API_URL}/login`, { username, password }).subscribe({
@@ -26,22 +25,18 @@ export class ApiService {
     });
   }
 
-  // Logout: elimina el token
   logout() {
     localStorage.removeItem('token');
   }
 
-  // Obtener token
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // Saber si el usuario está logueado
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  // Headers con el token para peticiones protegidas
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
@@ -54,7 +49,15 @@ export class ApiService {
   }
 
   predictPrice(data: any): Observable<any> {
-    return this.http.post(`${this.API_URL}/predictPrice`, {data});
+    return this.http.post(`${this.API_URL}/predictPrice`, data);
+  }
+
+  addVivienda(data: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/addVivienda`, data);
+  }
+
+  showViviendas(id: number): Observable<any> {
+    return this.http.post(`${this.API_URL}/guardados`, id);
   }
 
 }
