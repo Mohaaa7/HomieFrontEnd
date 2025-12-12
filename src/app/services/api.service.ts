@@ -53,11 +53,15 @@ export class ApiService {
   }
 
   addVivienda(data: any): Observable<any> {
-    return this.http.post(`${this.API_URL}/addVivienda`, data);
+    return this.http.post(`${this.API_URL}/addVivienda`, data, { headers: this.getAuthHeaders() });
   }
 
   showViviendas(id: number): Observable<any> {
-    return this.http.post(`${this.API_URL}/guardados`, id);
+    return this.http.get(`${this.API_URL}/guardados/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  deleteVivienda(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/deleteVivienda/${id}`, { headers: this.getAuthHeaders() });
   }
 
 }

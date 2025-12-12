@@ -1,28 +1,18 @@
-<!-- SECCIÓN CASAS GUARDADAS (MISMO FONDO) -->
 <div class="relative min-h-screen bg-gray-900 font-sans flex flex-col">
 
-    <!-- FONDO -->
     <div class="absolute inset-0">
         <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1950&q=80"
              class="w-full h-full object-cover brightness-75" alt="Fondo">
         <div class="absolute inset-0 bg-linear-to-b from-black/40 via-black/10 to-black/60"></div>
     </div>
 
-    <!-- CONTENIDO -->
     <div class="relative z-10 flex flex-col min-h-screen">
-        <!-- Header -->
         <header class="flex justify-between items-center p-6 text-white">
-            <h1 
-                class="text-3xl font-bold tracking-wide ml-10 cursor-pointer hover:text-blue-500"
-                routerLink="/"
-            >
+            <h1 class="text-3xl font-bold tracking-wide ml-10 cursor-pointer hover:text-blue-500" routerLink="/">
                 Homie
             </h1>
             <div class="flex items-center space-x-4">
-                <button 
-                    (click)="logout()"
-                    routerLink="/login"
-                    class="px-5 py-2 bg-red-600 rounded-full hover:bg-red-800 transition font-semibold shadow-lg cursor-pointer">
+                <button (click)="logout()" class="px-5 py-2 bg-red-600 rounded-full hover:bg-red-800 transition font-semibold shadow-lg cursor-pointer">
                     Logout
                 </button>
             </div>
@@ -34,82 +24,74 @@
 
         <div class="w-230 mx-auto flex flex-col gap-10 mb-30">
 
-            <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-4xl 
-                        shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden w-full">
-
-                <div class="p-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-3xl font-bold text-white">Casa con gran terraza</h3>
-                        <button class="px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
-                            Eliminar
-                        </button>
-                    </div>
-
-                    <p class="text-black-400 font-bold text-2xl mb-6">€450,000</p>
-
-                    <!-- TABLA -->
-                    <table class="w-full text-gray-200 text-left">
-                        <tbody>
-                            <tr>
-                                <td class="font-semibold pr-4">Tamaño:</td><td class="pr-6">120 m²</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Habitaciones:</td><td>3</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold pr-4">Baños:</td><td class="pr-6">2</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Garaje:</td><td>Sí</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold pr-4">Ascensor:</td><td class="pr-6">No</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Piscina:</td><td>2</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold pr-4">Balcón:</td><td class="pr-6">2</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Terraza:</td><td>2</td>
-                            </tr>
-                        </tbody>
-                    </table>                    
+            @if (listaGuardados.length === 0) {
+                <div class="text-white text-center text-xl bg-black/50 p-6 rounded-xl">
+                    No tienes viviendas guardadas aún.
                 </div>
+            }
 
-            </div>
+            @for (casa of listaGuardados; track casa) {
+                <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-4xl 
+                            shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden w-full transition hover:scale-[1.01]">
 
-            <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-4xl 
-                        shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden w-full">
+                    <div class="p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-3xl font-bold text-white">
+                                {{ casa.nombre || 'Vivienda sin nombre' }}
+                            </h3>
+                            
+                            <button 
+                                (click)="deleteVivienda(casa.id_vivienda)"
+                                class="px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
+                                Eliminar
+                            </button>
+                        </div>
 
-                <div class="p-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-3xl font-bold text-white">Loft acogedor</h3>
-                        <button class="px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
-                            Eliminar
-                        </button>
+                        <p class="text-black-400 font-bold text-2xl mb-6">
+                            {{ casa.price | currency:'EUR':'symbol':'1.0-0' }}
+                        </p>
+
+                        <table class="w-full text-gray-200 text-left">
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold pr-4">Tamaño:</td>
+                                    <td class="pr-6">{{ casa.m2_real }} m²</td>
+                                    
+                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Habitaciones:</td>
+                                    <td>{{ casa.room_numbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold pr-4">Baños:</td>
+                                    <td class="pr-6">{{ casa.bath_num }}</td>
+                                    
+                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Garaje:</td>
+                                    <td>{{ casa.garage ? 'Sí' : 'No' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold pr-4">Ascensor:</td>
+                                    <td class="pr-6">{{ casa.lift ? 'Sí' : 'No' }}</td>
+                                    
+                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Piscina:</td>
+                                    <td>{{ casa.swimming_pool ? 'Sí' : 'No' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold pr-4">Balcón:</td>
+                                    <td class="pr-6">{{ casa.balcony ? 'Sí' : 'No' }}</td>
+                                    
+                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Terraza:</td>
+                                    <td>{{ casa.terrace ? 'Sí' : 'No' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold pr-4 pt-4 text-gray-400">Ubicación:</td>
+                                    <td class="pr-6 pt-4 text-gray-400" colspan="3">
+                                        {{ casa.loc_neigh }}, {{ casa.loc_city }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                    
                     </div>
-                    <p class="text-black-400 font-bold text-2xl mb-6">€310,000</p>
-
-                    <!-- TABLA -->
-                    <table class="w-full text-gray-200 text-left">
-                        <tbody>
-                            <tr>
-                                <td class="font-semibold pr-4">Tamaño:</td><td class="pr-6">65 m²</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Habitaciones:</td><td>1</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold pr-4">Baños:</td><td class="pr-6">1</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Garaje:</td><td>No</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold pr-4">Ascensor:</td><td class="pr-6">No</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Piscina:</td><td>1</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold pr-4">Balcón:</td><td class="pr-6">1</td>
-                                <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Terraza:</td><td>1</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-
-            </div>
-
+            }
         </div>
-
     </div>
 </div>
