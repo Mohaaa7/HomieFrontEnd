@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-formulario',
+  standalone: true,
   imports: [RouterLink, NgIf, ReactiveFormsModule, FormsModule],
   templateUrl: './formulario.component.html',
   styleUrl: './formulario.component.css'
@@ -28,14 +29,14 @@ export class FormularioComponent {
       m2_real: [null, [Validators.required, Validators.min(10)]],
       room_num: [null, [Validators.required, Validators.min(0)]], 
       bath_num: [null, [Validators.required, Validators.min(0)]],
-      floor: [0, [Validators.required, Validators.min(0)]],
-      ground_size: [0, [Validators.min(0)]],
+      floor: [null, [Validators.required]], 
+      ground_size: [null, [Validators.min(0)]],
+      
       condition: ['', Validators.required],
       garage: ['', Validators.required],
       loc_city: ['', Validators.required], 
-      loc_district: ['', Validators.required], 
-      loc_neigh: ['', Validators.required], 
       house_type: ['', Validators.required],
+      
       balcony: [false],
       terrace: [false],
       garden: [false],
@@ -47,13 +48,16 @@ export class FormularioComponent {
 
   predictPrice(): void {
     if (this.predictForm.invalid) {
-      this.mensajeError = 'Formulario inválido. Revisa los campos.';
+      this.mensajeError = 'Por favor, rellena todos los campos obligatorios.';
+      console.log('faltan datos')
       return;
     }
 
     const formValues = this.predictForm.value;
+
     const dataToSend = {
       ...formValues,
+      ground_size: formValues.ground_size === null ? 0 : formValues.ground_size,
       room_numbers: formValues.room_num
     };
 
@@ -96,14 +100,16 @@ export class FormularioComponent {
       return;
     }
 
+    const formValues = this.predictForm.value;
     const datosParaGuardar = {
-      ...this.predictForm.value,       
-      nombre: this.saveName,           
+      ...formValues,       
+      ground_size: formValues.ground_size === null ? 0 : formValues.ground_size,
+      nombre: this.saveName,          
       price: this.predictedPrice,      
       user_id: parseInt(userId)     
     };
 
-    console.log("Enviando datos:", datosParaGuardar); // Para depurar
+    console.log("Enviando datos:", datosParaGuardar); 
 
     this.apiService.addVivienda(datosParaGuardar).subscribe({
       next: (res) => {

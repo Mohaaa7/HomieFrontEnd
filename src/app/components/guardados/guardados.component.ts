@@ -10,12 +10,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './guardados.component.css'
 })
 export class GuardadosComponent {
+  isLoggedIn: boolean = false;
   listaGuardados: any[] = [];
 
   constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.showGuardados();
+    this.checkLogin();
   }
 
   showGuardados() {
@@ -37,6 +39,10 @@ export class GuardadosComponent {
   }
 
   deleteVivienda(id: number) {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta vivienda de tus guardados?')) {
+      return;
+    }
+
     this.apiService.deleteVivienda(id).subscribe({
       next: (res: any) => {
         console.log('Vivienda eliminada: ', res)
@@ -46,6 +52,11 @@ export class GuardadosComponent {
         console.error('Error:', err);
       }
     });
+  }
+
+  checkLogin() {
+    const token = localStorage.getItem('token');
+    this.isLoggedIn = !!token;
   }
 
   logout() {

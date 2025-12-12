@@ -2,11 +2,12 @@
 
     <div class="absolute inset-0">
         <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1950&q=80"
-             class="w-full h-full object-cover brightness-75" alt="Fondo">
-        <div class="absolute inset-0 bg-linear-to-b from-black/40 via-black/10 to-black/60"></div>
+             class="w-full h-full object-cover brightness-50" alt="Fondo">
+        <div class="absolute inset-0 bg-linear-to-t from-gray-900 via-gray-900/40 to-black/40"></div>
     </div>
 
     <div class="relative z-10 flex flex-col min-h-screen">
+        
         <header class="flex justify-between items-center p-6 text-white">
             <h1 class="text-3xl font-bold tracking-wide ml-10 cursor-pointer hover:text-blue-500" routerLink="/">
                 Homie
@@ -18,80 +19,135 @@
             </div>
         </header>
 
-        <h2 class="text-5xl font-extrabold text-white text-center mb-16 drop-shadow-xl">
+        <h2 class="text-5xl font-extrabold text-white text-center mb-10 drop-shadow-xl">
             Casas guardadas
         </h2>
 
-        <div class="w-230 mx-auto flex flex-col gap-10 mb-30">
+        <div class="w-full max-w-5xl mx-auto flex flex-col gap-6 mb-30 px-4">
 
             @if (listaGuardados.length === 0) {
-                <div class="text-white text-center text-xl bg-black/50 p-6 rounded-xl">
+                <div class="text-white text-center text-xl bg-white/10 backdrop-blur-md p-10 rounded-3xl border border-white/10">
                     No tienes viviendas guardadas aún.
                 </div>
             }
 
-            @for (casa of listaGuardados; track casa) {
-                <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-4xl 
-                            shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden w-full transition hover:scale-[1.01]">
+            @for (casa of listaGuardados; track casa.id_vivienda) {
+                <div class="relative w-full bg-gray-500/80 backdrop-blur-md border border-white/20 rounded-3xl p-6 shadow-xl transition hover:bg-gray-500/90">
 
-                    <div class="p-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-3xl font-bold text-white">
-                                {{ casa.nombre || 'Vivienda sin nombre' }}
-                            </h3>
-                            
-                            <button 
-                                (click)="deleteVivienda(casa.id_vivienda)"
-                                class="px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition font-semibold shadow-lg cursor-pointer">
-                                Eliminar
-                            </button>
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-sm">
+                            {{ casa.nombre || 'Vivienda' }}
+                        </h3>
+                        
+                        <button (click)="deleteVivienda(casa.id_vivienda)" 
+                                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full shadow-md transition transform hover:scale-105 cursor-pointer">
+                            Eliminar
+                        </button>
+                    </div>
+
+                    <div class="text-gray-200 font-bold text-xs uppercase tracking-wide mb-4 flex gap-1 items-center opacity-90">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5">
+                            <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                        </svg>
+                        <span>
+                            @if (casa.loc_city == '0' || casa.loc_city == 0) { BARCELONA }
+                            @else if (casa.loc_city == '1' || casa.loc_city == 1) { HOSPITALET }
+                            @else if (casa.loc_city == '2' || casa.loc_city == 2) { VILAFRANCA }
+                            @else { {{ casa.loc_city || 'CIUDAD DESC.' }} }
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-5">
+                        <span class="text-5xl font-black text-black">
+                            {{ casa.price | currency:'EUR':'symbol':'1.0-0' }}
+                        </span>
+                        <span class="px-3 py-1 bg-gray-500/60 text-white text-[10px] font-bold uppercase rounded border border-white/20 tracking-wider">
+                            @if (casa.house_type == '0' || casa.house_type == 0) { APARTAMENTO }
+                            @else if (casa.house_type == '1' || casa.house_type == 1) { CHALET IND. }
+                            @else if (casa.house_type == '2' || casa.house_type == 2) { CHALET ADOS. }
+                            @else if (casa.house_type == '3' || casa.house_type == 3) { ESTUDIO }
+                            @else if (casa.house_type == '4' || casa.house_type == 4) { FINCA RÚSTICA }
+                            @else if (casa.house_type == '5' || casa.house_type == 5) { PISO }
+                            @else { VIVIENDA }
+                        </span>
+                    </div>
+
+                    <div class="h-px w-full bg-gray-400/40 mb-5"></div>
+
+                    <div class="grid grid-cols-4 gap-4 mb-5">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold text-blue-200 uppercase mb-1 tracking-widest opacity-80">SUPERFICIE</span>
+                            <div class="flex items-center gap-2 text-2xl font-bold text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" />
+                                </svg>
+                                {{ casa.m2_real }} m²
+                            </div>
                         </div>
 
-                        <p class="text-black-400 font-bold text-2xl mb-6">
-                            {{ casa.price | currency:'EUR':'symbol':'1.0-0' }}
-                        </p>
+                        <div class="flex flex-col border-l border-gray-400/30 pl-6">
+                            <span class="text-[10px] font-bold text-blue-200 uppercase mb-1 tracking-widest opacity-80">HABITACIONES</span>
+                            <div class="flex items-center gap-2 text-2xl font-bold text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                </svg>
+                                {{ casa.room_numbers }}
+                            </div>
+                        </div>
 
-                        <table class="w-full text-gray-200 text-left">
-                            <tbody>
-                                <tr>
-                                    <td class="font-semibold pr-4">Tamaño:</td>
-                                    <td class="pr-6">{{ casa.m2_real }} m²</td>
-                                    
-                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Habitaciones:</td>
-                                    <td>{{ casa.room_numbers }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pr-4">Baños:</td>
-                                    <td class="pr-6">{{ casa.bath_num }}</td>
-                                    
-                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Garaje:</td>
-                                    <td>{{ casa.garage ? 'Sí' : 'No' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pr-4">Ascensor:</td>
-                                    <td class="pr-6">{{ casa.lift ? 'Sí' : 'No' }}</td>
-                                    
-                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Piscina:</td>
-                                    <td>{{ casa.swimming_pool ? 'Sí' : 'No' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pr-4">Balcón:</td>
-                                    <td class="pr-6">{{ casa.balcony ? 'Sí' : 'No' }}</td>
-                                    
-                                    <td class="border-l border-gray-400 pl-6 font-semibold pr-4">Terraza:</td>
-                                    <td>{{ casa.terrace ? 'Sí' : 'No' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pr-4 pt-4 text-gray-400">Ubicación:</td>
-                                    <td class="pr-6 pt-4 text-gray-400" colspan="3">
-                                        {{ casa.loc_neigh }}, {{ casa.loc_city }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>                    
+                        <div class="flex flex-col border-l border-gray-400/30 pl-6">
+                            <span class="text-[10px] font-bold text-blue-200 uppercase mb-1 tracking-widest opacity-80">BAÑOS</span>
+                            <div class="flex items-center gap-2 text-2xl font-bold text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18" />
+                                </svg>
+                                {{ casa.bath_num }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col border-l border-gray-400/30 pl-6">
+                            <span class="text-[10px] font-bold text-blue-200 uppercase mb-1 tracking-widest opacity-80">ESTADO</span>
+                            <div class="flex items-center gap-2 text-lg font-bold text-white mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+                                </svg>
+                                @if (casa.condition == '0' || casa.condition == 0) { Nuevo }
+                                @else if (casa.condition == '3' || casa.condition == 3) { Reformado }
+                                @else if (casa.condition == '2' || casa.condition == 2) { Buen estado }
+                                @else if (casa.condition == '1' || casa.condition == 1) { A reformar }
+                                @else { - }
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        @if (casa.garage && casa.garage != '0' && casa.garage != 0) {
+                            <span class="px-3 py-1.5 bg-blue-600 rounded-md text-white text-xs font-bold shadow-sm">
+                                @if (casa.garage == '1' || casa.garage == 1) { Garaje Incluido }
+                                @else if (casa.garage == '4' || casa.garage == 4) { Garaje: +5.000€ }
+                                @else if (casa.garage == '5' || casa.garage == 5) { Garaje: +6.000€ }
+                                @else if (casa.garage == '6' || casa.garage == 6) { Garaje: +8.000€ }
+                                @else if (casa.garage == '2' || casa.garage == 2) { Garaje: +10.000€ }
+                                @else if (casa.garage == '3' || casa.garage == 3) { Garaje: +12.000€ }
+                            </span>
+                        }
+
+                        <span class="px-3 py-1.5 bg-gray-600/50 rounded-md text-white text-xs font-bold shadow-sm">
+                            {{ casa.floor === 0 ? 'Planta Baja' : 'Planta ' + casa.floor }}
+                        </span>
+
+                        @if (casa.balcony) { <span class="px-3 py-1.5 bg-gray-600/50 rounded-md text-white text-xs font-bold">Balcón</span> }
+                        @if (casa.terrace) { <span class="px-3 py-1.5 bg-gray-600/50 rounded-md text-white text-xs font-bold">Terraza</span> }
+                        @if (casa.garden) { <span class="px-3 py-1.5 bg-green-600/40 rounded-md text-white text-xs font-bold">Jardín</span> }
+                        @if (casa.swimming_pool) { <span class="px-3 py-1.5 bg-cyan-600/40 rounded-md text-white text-xs font-bold">Piscina</span> }
+                        @if (casa.lift) { <span class="px-3 py-1.5 bg-gray-600/50 rounded-md text-white text-xs font-bold">Ascensor</span> }
+                        @if (casa.unfurnished) { <span class="px-3 py-1.5 bg-gray-600/50 rounded-md text-white text-xs font-bold">Sin muebles</span> }
+                        @if (casa.ground_size > 0) { <span class="px-3 py-1.5 bg-gray-600/50 rounded-md text-white text-xs font-bold">{{ casa.ground_size }} m² terreno</span> }
+                    </div>
+
                 </div>
             }
+
         </div>
     </div>
 </div>
