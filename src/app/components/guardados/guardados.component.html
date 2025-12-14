@@ -50,10 +50,31 @@
                             <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
                         </svg>
                         <span>
-                            @if (casa.loc_city == '0' || casa.loc_city == 0) { BARCELONA }
-                            @else if (casa.loc_city == '1' || casa.loc_city == 1) { HOSPITALET }
-                            @else if (casa.loc_city == '2' || casa.loc_city == 2) { VILAFRANCA }
-                            @else { {{ casa.loc_city || 'CIUDAD DESC.' }} }
+                            @if (casa.loc_city == '0' || casa.loc_city == 0) { Avinyonet del Penedès }
+                            @else if (casa.loc_city == '1' || casa.loc_city == 1) { Castellví de la Marca }
+                            @else if (casa.loc_city == '2' || casa.loc_city == 2) { El Pla del Penedès }
+                            @else if (casa.loc_city == '3' || casa.loc_city == 3) { Font-Rubí }
+                            @else if (casa.loc_city == '4' || casa.loc_city == 4) { Gelida }
+                            @else if (casa.loc_city == '5' || casa.loc_city == 5) { La Granada }
+                            @else if (casa.loc_city == '6' || casa.loc_city == 6) { Les Cabanyes }
+                            @else if (casa.loc_city == '7' || casa.loc_city == 7) { Mediona }
+                            @else if (casa.loc_city == '8' || casa.loc_city == 8) { Olèrdola }
+                            @else if (casa.loc_city == '9' || casa.loc_city == 9) { Pacs del Penedès }
+                            @else if (casa.loc_city == '10' || casa.loc_city == 10) { Pontons }
+                            @else if (casa.loc_city == '11' || casa.loc_city == 11) { Puigdàlber }
+                            @else if (casa.loc_city == '12' || casa.loc_city == 12) { Sant Cugat Sesgarrigues }
+                            @else if (casa.loc_city == '13' || casa.loc_city == 13) { Sant Llorenç d'Hortons }
+                            @else if (casa.loc_city == '14' || casa.loc_city == 14) { Sant Martí Sarroca }
+                            @else if (casa.loc_city == '15' || casa.loc_city == 15) { Sant Pere de Riudebitlles }
+                            @else if (casa.loc_city == '16' || casa.loc_city == 16) { Sant Quintí de Mediona }
+                            @else if (casa.loc_city == '17' || casa.loc_city == 17) { Sant Sadurní d'Anoia }
+                            @else if (casa.loc_city == '18' || casa.loc_city == 18) { Santa Margarida i els Monjos }
+                            @else if (casa.loc_city == '19' || casa.loc_city == 19) { Subirats }
+                            @else if (casa.loc_city == '20' || casa.loc_city == 20) { Torrelavit }
+                            @else if (casa.loc_city == '21' || casa.loc_city == 21) { Torrelles de Foix }
+                            @else if (casa.loc_city == '22' || casa.loc_city == 22) { Vilafranca del Penedès }
+                            @else if (casa.loc_city == '23' || casa.loc_city == 23) { Vilobí del Penedès }
+                            @else { {{ casa.loc_city || 'MUNICIPIO DESC.' }} }
                         </span>
                     </div>
 
